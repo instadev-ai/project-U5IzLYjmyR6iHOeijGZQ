@@ -3,17 +3,19 @@ import { BarChart2, Coins, Home, LineChart, Settings, Wallet } from "lucide-reac
 import { Link, useLocation } from "react-router-dom"
 import { motion } from "framer-motion"
 
-const Sidebar = () => {
+interface SidebarProps {
+  className?: string;
+}
+
+const Sidebar = ({ className }: SidebarProps) => {
   const location = useLocation()
 
   const sidebarVariants = {
-    hidden: { x: -250 },
+    hidden: { opacity: 0 },
     visible: { 
-      x: 0,
+      opacity: 1,
       transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 20
+        staggerChildren: 0.1
       }
     }
   }
@@ -34,7 +36,10 @@ const Sidebar = () => {
       initial="hidden"
       animate="visible"
       variants={sidebarVariants}
-      className="hidden lg:block w-64 border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className={cn(
+        "h-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+        className
+      )}
     >
       <div className="flex h-full flex-col">
         <motion.div 
@@ -56,6 +61,14 @@ const Sidebar = () => {
             >
               <Link
                 to={item.href}
+                onClick={() => {
+                  // Close sheet on mobile if needed
+                  const sheet = document.querySelector('[data-state="open"]');
+                  if (sheet) {
+                    const closeButton = sheet.querySelector('button[data-state="open"]');
+                    closeButton?.click();
+                  }
+                }}
                 className={cn(
                   "flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors",
                   "hover:bg-accent hover:text-accent-foreground",
@@ -74,6 +87,14 @@ const Sidebar = () => {
           <motion.div variants={itemVariants}>
             <Link
               to="/settings"
+              onClick={() => {
+                // Close sheet on mobile if needed
+                const sheet = document.querySelector('[data-state="open"]');
+                if (sheet) {
+                  const closeButton = sheet.querySelector('button[data-state="open"]');
+                  closeButton?.click();
+                }
+              }}
               className={cn(
                 "flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors",
                 "hover:bg-accent hover:text-accent-foreground",
