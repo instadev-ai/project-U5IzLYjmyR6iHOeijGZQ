@@ -115,7 +115,7 @@ const CryptoDashboard = () => {
                     height: '100%',
                     border: 'none',
                   }}
-                  allowTransparency
+                  allowtransparency="true"
                   allowFullScreen
                 />
               </div>
